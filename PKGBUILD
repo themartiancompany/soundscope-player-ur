@@ -1,24 +1,36 @@
 # Maintainer: Pellegrino Prevete <pellegrinoprevete@gmail.com>
 
 # shellcheck disable=SC2034
+_os="$( \
+  uname \
+    -o)"
+_platform="playstation2"
 _namespace="tallero"
-_pkgbase="soundscope-player"
+_pkg=soundscope-player
+_pkgbase="${_pkg}"
 _pkgname="${_pkgbase}"
 pkgname="${_pkgbase}"
 pkgver=1.1
 pkgrel=1
-pkgdesc="SoundScope PlayStation media player."
-arch=('any')
+_pkgdesc=(
+  "SoundScope PlayStation media player."
+)
+pkgdesc="${_pkgdesc[*]}"
+arch=(
+  'any'
+)
 url="https://github.com/${_namespace}/${_pkgbase}"
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
-depends=('duckstation'
-         'ffmpeg'
-         'mkaudiocdrimg'
-         'shntool'
-         'psx-bios'
-         'python-appdirs'
-         'python-gobject')
+depends=(
+  'duckstation'
+  'ffmpeg'
+  'mkaudiocdrimg'
+  'shntool'
+  'psx-bios'
+  'python-appdirs'
+  'python-gobject'
+)
 makedepends=('git'
              'python-setuptools')
 license=("AGPL3")
