@@ -72,6 +72,8 @@ depends=(
   'ffmpeg'
   'mkaudiocdrimg'
   'shntool'
+  "${_py}>=${_pymajver}"
+  "${_py}<${_pynextver}"
   "${_py}-appdirs"
   "${_py}-gobject"
 )
