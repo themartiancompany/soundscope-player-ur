@@ -28,6 +28,9 @@
 _os="$( \
   uname \
     -o)"
+if [[ ! -v "_docs" ]]; the
+  _docs="true"
+fi
 if [[ ! -v "_git" ]]; the
   _git="true"
 fi
@@ -43,6 +46,11 @@ pkgbase="${_pkg}"
 pkgname=(
   "${_pkg}"
 )
+if [[ "${_docs}" == "true" ]]; then
+  pkgname+=(
+    "${_pkg}-docs"
+  )
+fi
 pkgver=1.1
 pkgrel=1
 _pkgdesc=(
@@ -56,11 +64,8 @@ _http="https://github.com"
 # _ns="tallero"
 _ns="themartiancompany"
 url="${_http}/${_ns}/${_pkg}"
-provides=(
-  "${_py}-${_pkg}=${pkgver}"
-)
-conflicts=(
-  "${_py}-${_pkg}"
+license=(
+  "AGPL3"
 )
 depends=(
   "${_emulator}"
@@ -79,11 +84,20 @@ makedepends=(
   'git'
   "${_py}-setuptools"
 )
-license=(
-  "AGPL3"
+if [[ "${_docs}" == "true" ]]; then
+  makedepends+=(
+    "${_py}-docutils"
+  )
+fi
+provides=(
+  "${_py}-${_pkg}=${pkgver}"
 )
+conflicts=(
+  "${_py}-${_pkg}"
+)
+_tarname="${_pkg}-${_pkgver}"
 if [[ "${_git}" == "true" ]]; then
-  _src="${_pkg}::git+${url}#tag=${pkgver}"
+  _src="${_tarname}::git+${url}#tag=${pkgver}"
   _sum="SKIP"
 fi
 source=(
@@ -94,8 +108,14 @@ sha256sums=(
 )
 
 package_soundscope-player() {
+  provides=(
+    "${_py}-${_pkg}=${pkgver}"
+  )
+  conflicts=(
+    "${_py}-${_pkg}"
+  )
   cd \
-    "${_pkg}"
+    "${_tarname}"
   "${_py}" \
     "setup.py" \
     install \
@@ -105,4 +125,27 @@ package_soundscope-player() {
     -vDm644 \
     "COPYING" \
     "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+
+package_soundscope-player-docs() {
+  local \
+    _make_opts=()
+  provides=(
+    "${_py}-${_pkg}-docs=${pkgver}"
+  )
+  conflicts=(
+    "${_py}-${_pkg}-docs"
+  )
+  _make_opts=(
+    PREFIX="/usr"
+    DESTDIR="${pkgdir}"
+  )
+  cd \
+    "${_tarname}"
+  make \
+    "${_make_opts[@]}" \
+    install-doc
+  make \
+    "${_make_opts[@]}" \
+    install-man
 }
