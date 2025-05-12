@@ -81,11 +81,16 @@ if [[ "${_os}" == "GNU/Linux" ]]; then
   )
 fi
 makedepends=(
-  'git'
   "${_py}-setuptools"
 )
+if [[ "${_git}" == "true" ]]; then
+  makedepends+=(
+    "git"
+  )
+fi
 if [[ "${_docs}" == "true" ]]; then
   makedepends+=(
+    "make"
     "${_py}-docutils"
   )
 fi
