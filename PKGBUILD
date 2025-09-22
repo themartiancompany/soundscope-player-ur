@@ -101,9 +101,18 @@ depends=(
   "${_py}>=${_pymajver}"
   "${_py}<${_pynextver}"
   "${_py}-appdirs"
-  "${_py}-gobject"
   "psx-soundscope-bios"
 )
+if [[ "${_os}" == "GNU/Linux" ]]; then
+  depends+=(
+    "${_py}-gobject"
+  )
+fi
+if [[ "${_os}" == "Android" ]]; then
+  depends+=(
+    "sudo"
+  )
+fi
 makedepends=(
   "${_py}-setuptools"
 )
