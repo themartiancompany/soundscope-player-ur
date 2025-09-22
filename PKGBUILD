@@ -102,7 +102,7 @@ depends=(
   "${_py}<${_pynextver}"
   "${_py}-appdirs"
   "${_py}-gobject"
-  "psx-bios-soundscope"
+  "psx-soundscope-bios"
 )
 makedepends=(
   "${_py}-setuptools"
