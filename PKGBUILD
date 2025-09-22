@@ -111,6 +111,8 @@ fi
 _tarname="${_pkg}-${_tag}"
 _sum="e1e7a1a150071250e6015d64d9c1740b3641da03279500aa4a6a7a04d0a48b87"
 _sig_sum="049081f4cc049551ff82baeb798a8e93d646c675f7f29cd9817da6b6d5ff48ea"
+# The kid
+_evmfs_ns="0x926acb6aA4790ff678848A9F1C59E578B148C786"
 # Dvorak
 _evmfs_sig_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
 _chain_id="100"
