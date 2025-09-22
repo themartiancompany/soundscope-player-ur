@@ -31,11 +31,23 @@
 _os="$( \
   uname \
     -o)"
+_evmfs_available="$( \
+  command \
+    -v \
+    "evmfs" || \
+    true)"
+if [[ ! -v "_evmfs" ]]; then
+  if [[ "${_evmfs_available}" != "" ]]; then
+    _evmfs="true"
+  elif [[ "${_evmfs_available}" == "" ]]; then
+    _evmfs="false"
+  fi
+fi
 if [[ ! -v "_docs" ]]; then
   _docs="true"
 fi
 if [[ ! -v "_git" ]]; then
-  _git="true"
+  _git="false"
 fi
 if [[ "${_os}" == "Android" ]]; then
   _emulator="retroarch"
@@ -43,6 +55,15 @@ elif [[ "${_os}" == "Android" ]]; then
   _emulator="duckstation"
 fi
 _py="python"
+_pyver="$( \
+  "${_py}" \
+    -V | \
+    awk \
+      '{print $2}')"
+_pymajver="${_pyver%.*}"
+_pyminver="${_pymajver#*.}"
+_pynextver="${_pymajver%.*}.$(( \
+  ${_pyminver} + 1))"
 _platform="playstation"
 _pkg=soundscope-player
 pkgbase="${_pkg}"
