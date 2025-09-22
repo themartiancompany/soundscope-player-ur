@@ -31,10 +31,10 @@
 _os="$( \
   uname \
     -o)"
-if [[ ! -v "_docs" ]]; the
+if [[ ! -v "_docs" ]]; then
   _docs="true"
 fi
-if [[ ! -v "_git" ]]; the
+if [[ ! -v "_git" ]]; then
   _git="true"
 fi
 if [[ "${_os}" == "Android" ]]; then
