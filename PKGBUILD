@@ -19,10 +19,13 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Maintainer: Truocolo <truocolo@aol.com>
-# Maintainer: Truocolo <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
-# Maintainer: Pellegrino Prevete (dvorak) <pellegrinoprevete@gmail.com>
-# Maintainer: Pellegrino Prevete (dvorak) <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
+# Maintainer:
+#   Truocolo
+#     <truocolo@aol.com>
+#     <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
+#   Pellegrino Prevete (dvorak)
+#     <pellegrinoprevete@gmail.com>
+#     <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
 
 # shellcheck disable=SC2034
 _os="$( \
@@ -40,7 +43,7 @@ elif [[ "${_os}" == "Android" ]]; then
   _emulator="duckstation"
 fi
 _py="python"
-_platform="playstation2"
+_platform="playstation"
 _pkg=soundscope-player
 pkgbase="${_pkg}"
 pkgname=(
@@ -51,7 +54,9 @@ if [[ "${_docs}" == "true" ]]; then
     "${_pkg}-docs"
   )
 fi
-pkgver=1.1
+pkgver=1.1.1
+_commit="7e76c78da14ca3ad9a64f5e455c4208a3a112443"
+_mkaudiocdrimg_pkgver="1.2.3"
 pkgrel=1
 _pkgdesc=(
   "SoundScope PlayStation media player."
@@ -70,18 +75,14 @@ license=(
 depends=(
   "${_emulator}"
   'ffmpeg'
-  'mkaudiocdrimg'
+  "mkaudiocdrimg>=${_mkaudiocdrimg_pkgver}"
   'shntool'
   "${_py}>=${_pymajver}"
   "${_py}<${_pynextver}"
   "${_py}-appdirs"
   "${_py}-gobject"
+  "psx-bios-soundscope"
 )
-if [[ "${_os}" == "GNU/Linux" ]]; then
-  depends+=(
-    "psx-bios"
-  )
-fi
 makedepends=(
   "${_py}-setuptools"
 )
@@ -102,15 +103,41 @@ provides=(
 conflicts=(
   "${_py}-${_pkg}"
 )
-_tarname="${_pkg}-${_pkgver}"
-if [[ "${_git}" == "true" ]]; then
+if [[ "${_evmfs}" == "true" ]]; then
+  _tag="${_commit}"
+elif [[ "${_git}" == "true" ]]; then
+  _tag="${pkgver}"
+fi
+_tarname="${_pkg}-${_tag}"
+_sum="e1e7a1a150071250e6015d64d9c1740b3641da03279500aa4a6a7a04d0a48b87"
+_sig_sum="049081f4cc049551ff82baeb798a8e93d646c675f7f29cd9817da6b6d5ff48ea"
+# Dvorak
+_evmfs_sig_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
+_chain_id="100"
+_fs="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
+_evmfs_dir="evmfs://${_chain_id}/${_fs}/${_evmfs_ns}"
+_evmfs_sig_dir="evmfs://${_chain_id}/${_fs}/${_evmfs_sig_ns}"
+_evmfs_uri="${_evmfs_dir}/${_fs}/${_sum}"
+_evmfs_sig_uri="${_evmfs_sig_dir}/${_sig_sum}"
+source=()
+sha256sums=()
+if [[ "${_evmfs}" == "true" ]]; then
+  _src="${_tarname}.tar.gz::${_evmfs_uri}"
+  _sig_src="${_tarname}.tar.gz.sig::${_evmfs_sig_uri}"
+  source+=(
+    "${_sig_src}"
+  )
+  sha256sums+=(
+    "${_sig_sum}"
+  )
+elif [[ "${_git}" == "true" ]]; then
   _src="${_tarname}::git+${url}#tag=${pkgver}"
   _sum="SKIP"
 fi
-source=(
+source+=(
   "${_src}"
 )
-sha256sums=(
+sha256sums+=(
   "${_sum}"
 )
 
