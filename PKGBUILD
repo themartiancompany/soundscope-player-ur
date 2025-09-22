@@ -51,7 +51,7 @@ if [[ ! -v "_git" ]]; then
 fi
 if [[ "${_os}" == "Android" ]]; then
   _emulator="retroarch"
-elif [[ "${_os}" == "Android" ]]; then
+elif [[ "${_os}" != "Android" ]]; then
   _emulator="duckstation"
 fi
 _py="python"
