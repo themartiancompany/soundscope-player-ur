@@ -76,7 +76,7 @@ if [[ "${_docs}" == "true" ]]; then
   )
 fi
 pkgver=1.1.1
-_commit="cb69063519fdb8a2a2eacfd17bb9ac7fd3a67e1e"
+_commit="6e17a2f30876f011349e11b4b92186fa36f9c9dd"
 _mkaudiocdrimg_pkgver="1.2.3"
 pkgrel=1
 _pkgdesc=(
@@ -139,8 +139,9 @@ elif [[ "${_git}" == "true" ]]; then
   _tag="${pkgver}"
 fi
 _tarname="${_pkg}-${_tag}"
-_sum="06057f5a6299a73c4e873ba1da989d585bb26f0a580bda257c18db804741afcd"
+_sum="a99a20e16679514d67dbbda112c71056d7a855eb1baedc8dd328300c64206b28"
 _sig_sum="8305ab0f8ff1b97225e2672dede874b1ab8ab7f40754b3817cde9328700f4f1c"
+_sig_sum="c60867cccbcc577debfe901f84e6bf53a6c116cbfe8a3888372fea5b67644934"
 # The kid
 _evmfs_ns="0x926acb6aA4790ff678848A9F1C59E578B148C786"
 # Dvorak
